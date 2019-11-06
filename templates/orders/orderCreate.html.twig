@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% from_theme from 'bootstrap_4_layout.html.twig' %}
+
+{% block title %} Creat Order{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class=""row">
+          {{  form_start(from) }}
+        {{ form_widget(from) }}
+        {{ from_end(from) }}
+    </div>
+    </div>
+{% endblock %}
