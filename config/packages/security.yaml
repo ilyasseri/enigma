@@ -1,0 +1,45 @@
+security:
+  encoders:
+    Symfony\Component\Security\Core\User\User:
+      algorithm: bcrypt
+  # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+  providers:
+    in_memory:
+      memory:
+        users:
+          admin:
+            password: '$argon2i$v=19$m=65536,t=4,p=1$eXZTdXZpM1BudWtGN0RKZw$eTkhLV+rEvzJ1LHu7nT8i+EDNeWpAvj++U4QDWECE58'
+            roles: 'ROLE_ADMIN'
+          user:
+            password: '$argon2i$v=19$m=65536,t=4,p=1$Mk5SNE1Rd243dWQuRFkuUw$zwLTmJGh058a37ZBO5WxgoPGQN+YpBkDheWmQmpHfwQ'
+            roles: 'ROLEUSER'
+
+  firewalls:
+    dev:
+      pattern: ^/((profiler|wdt)|css|images|js)/
+      security: false
+    main:
+      anonymous: ~
+      form_login:
+        login_path: login
+        check_path: login
+        csrf_token_generator: security.csrf.token_manager
+      logout:
+        path: /logout
+        target: /logout
+        csrf_token_generator: security.csrf.token_manager
+      # activate different ways to authenticate
+      # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+      # https://symfony.com/doc/current/security/impersonating_user.html
+      # switch_user: true
+  role_hierarchy:
+    ROLE_ADMIN: ROLE_USER
+    ROLE_SUPER_ADMIN: ['ROLE_ADMIN','ROLE_ALLOWED_TO_SWITCH']
+
+  # Easy way to control access for large sections of your site
+  # Note: Only the first access control that matches will be used
+  access_control:
+    - { path: ^/orders/create, roles: ROLE_ADMIN}
+    - { path: ^/orders, roles: ROLE_USER }
+    - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }

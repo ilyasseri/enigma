@@ -1,3 +1,24 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+chuck:
+    path: /chuck
+    controller: App\Controller\ChuckController::index
+
+orders_list:
+    path: /orders
+    controller: App\Controller\OrdersList
+    methods: ["GET"]
+
+orders_detail:
+    path: /orders/{id}
+    controller: App\Controller\OrderDetail
+    methods: ["GET"]
+
+orders_update_status:
+    path: /orders/{id}/status/{status}
+    controller: App\Controller\OrderUpdateStatus
+
+logout:
+    path: /logout
